@@ -1,5 +1,5 @@
 # gekkoin-tokens
-Fiat tokens on [GEKKOIN](https://gekkoin.com) network.
+Fiat tokens on [GEKKOIN](https://gekkoin.com) network. Currently there is only one Gekkoin token - Gekkoin EUR Token (GKE). Token for USD (GKU) is coming up soon.
 
 # Contracts
 The implementation is fairly simple and straightforward.
