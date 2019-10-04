@@ -1,4 +1,4 @@
-pragma solidity >=0.4.24;
+pragma solidity 0.5.3;
 
 /**
  * @title ERC20Basic
@@ -86,9 +86,9 @@ library SafeMath {
 contract BasicToken is ERC20Basic {
   using SafeMath for uint256;
 
-  mapping(address => uint256) balances;
+  mapping(address => uint256) internal balances;
 
-  uint256 totalSupply_;
+  uint256 internal totalSupply_;
 
   /**
   * @dev Total number of tokens in existence
@@ -372,7 +372,7 @@ contract BurnableToken is BasicToken {
    * @param _value The amount of token to be burned.
    */
   function burn(uint256 _value) public {
-    _burn(msg.sender, _value * (10 ** 18));
+    _burn(msg.sender, _value);
   }
 
   function _burn(address _who, uint256 _value) internal {
@@ -393,33 +393,12 @@ contract GekkoinEURToken is MintableToken, BurnableToken {
     string public constant symbol = "EURG"; // solium-disable-line uppercase
     uint8 public constant decimals = 18; // solium-disable-line uppercase
 
-}
+    function createTokens(uint count, address addr) onlyOwner public returns(bool) {
+        uint256 tokenAmount = count;
+        require(count > 0);
+        require(addr != address(0));
+        mint(addr, tokenAmount);
+        return true;
+    }
 
-contract GekkoinEUR {
-    using SafeMath for uint256;
-
-    GekkoinEURToken public token;
-    address public ownerContract;       
-
-  modifier isContractOwner() {
-    require(msg.sender == ownerContract);
-    _;
-  }
-
-  function createTokenContract() internal returns (GekkoinEURToken) {
-      return new GekkoinEURToken();
-  }
-
-  constructor() public {
-      token = createTokenContract();
-      ownerContract = msg.sender;      
-  }
-
-  function createTokens(uint count, address addr) isContractOwner public returns(bool) {  
-      uint256 tokenAmount = count * (10 ** 18);   
-      require(count > 0);
-      require(addr != address(0));
-      token.mint(addr, tokenAmount);      
-      return true;
-  }
 }
