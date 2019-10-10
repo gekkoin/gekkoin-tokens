@@ -1,7 +1,7 @@
 # gekkoin-tokens
 Fiat tokens on [GEKKOIN](https://gekkoin.com) ecosystem. <br />
-Currently there is only one Gekkoin token in the ecosystem - Gekkoin EUR Token (GKE). <br />
-Token for USD (GKU) is coming soon.
+Currently there is only one Gekkoin token in the ecosystem - Gekkoin EUR Token (EURG). <br />
+Token for USD (USDG) is coming soon.
 
 # Contracts
 The implementation is fairly simple and straightforward.
