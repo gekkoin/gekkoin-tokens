@@ -54,7 +54,7 @@ As far as Gekkoin EUR Token is stable coin, minting is unlimited. Modifier `canM
 ### Access control
 The Gekkoin EUR Token contract is Ownable contract. These functions can be only called by owner: `transferOwnership`, `mint`.
 
-Function renounceOwnership was removed from original OpenZeppelin implementation.
+Function renounceOwnership was removed from original OpenZeppelin implementation (with OwnershipRenounced event).
 
 ## GekkoinEURToken
 GekkoinEURToken inherits from `MintableToken`, `BurnableToken`. GekkoinEURToken sets name to `Gekkoin EUR Token`; symbol = `EURG`; decimals to `18`.
