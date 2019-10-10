@@ -275,17 +275,6 @@ contract Ownable {
   }
 
   /**
-   * @dev Allows the current owner to relinquish control of the contract.
-   * @notice Renouncing to ownership will leave the contract without an owner.
-   * It will not be possible to call the functions with the `onlyOwner`
-   * modifier anymore.
-   */
-  function renounceOwnership() public onlyOwner {
-    emit OwnershipRenounced(owner);
-    owner = address(0);
-  }
-
-  /**
    * @dev Allows the current owner to transfer control of the contract to a newOwner.
    * @param _newOwner The address to transfer ownership to.
    */
@@ -311,15 +300,6 @@ contract Ownable {
  */
 contract MintableToken is StandardToken, Ownable {
   event Mint(address indexed to, uint256 amount);
-  event MintFinished();
-
-  bool public mintingFinished = false;
-
-
-  modifier canMint() {
-    require(!mintingFinished);
-    _;
-  }
 
   modifier hasMintPermission() {
     require(msg.sender == owner);
@@ -337,7 +317,6 @@ contract MintableToken is StandardToken, Ownable {
     uint256 _amount
   )
     hasMintPermission
-    canMint
     public
     returns (bool)
   {
@@ -345,16 +324,6 @@ contract MintableToken is StandardToken, Ownable {
     balances[_to] = balances[_to].add(_amount);
     emit Mint(_to, _amount);
     emit Transfer(address(0), _to, _amount);
-    return true;
-    }
-
-  /**
-   * @dev Function to stop minting new tokens.
-   * @return True if the operation was successful.
-   */
-    function finishMinting() onlyOwner canMint public returns (bool) {
-    mintingFinished = true;
-    emit MintFinished();
     return true;
     }
 }
@@ -392,13 +361,5 @@ contract GekkoinEURToken is MintableToken, BurnableToken {
     string public constant name = "Gekkoin EUR Token"; // solium-disable-line uppercase
     string public constant symbol = "EURG"; // solium-disable-line uppercase
     uint8 public constant decimals = 18; // solium-disable-line uppercase
-
-    function createTokens(uint count, address addr) onlyOwner public returns(bool) {
-        uint256 tokenAmount = count;
-        require(count > 0);
-        require(addr != address(0));
-        mint(addr, tokenAmount);
-        return true;
-    }
 
 }
