@@ -331,15 +331,20 @@ contract MintableToken is StandardToken, Ownable {
  * @title Burnable Token
  * @dev Token that can be irreversibly burned (destroyed).
  */
-contract BurnableToken is BasicToken {
+contract BurnableToken is BasicToken, Ownable {
 
   event Burn(address indexed burner, uint256 value);
+
+  modifier hasBurnPermission() {
+    require(msg.sender == owner);
+    _;
+  }
 
   /**
    * @dev Burns a specific amount of tokens.
    * @param _value The amount of token to be burned.
    */
-  function burn(uint256 _value) public {
+  function burn(uint256 _value) public hasBurnPermission {
     _burn(msg.sender, _value);
   }
 
