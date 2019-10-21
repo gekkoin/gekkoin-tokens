@@ -364,6 +364,6 @@ contract GekkoinEURToken is MintableToken, BurnableToken {
 
     string public constant name = "Gekkoin EUR Token"; // solium-disable-line uppercase
     string public constant symbol = "EURG"; // solium-disable-line uppercase
-    uint8 public constant decimals = 18; // solium-disable-line uppercase
+    uint8 public constant decimals = 2; // solium-disable-line uppercase
 
 }

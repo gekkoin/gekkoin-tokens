@@ -57,7 +57,7 @@ The Gekkoin EUR Token contract is Ownable contract. These functions can be only 
 Function renounceOwnership was removed from original OpenZeppelin implementation (with OwnershipRenounced event).
 
 ## GekkoinEURToken
-GekkoinEURToken inherits from `MintableToken`, `BurnableToken`. GekkoinEURToken sets name to `Gekkoin EUR Token`; symbol = `EURG`; decimals to `18`.
+GekkoinEURToken inherits from `MintableToken`, `BurnableToken`. GekkoinEURToken sets name to `Gekkoin EUR Token`; symbol = `EURG`; decimals to `2`.
 
 ## Compiling
 Gekkoin EUR token is truffle project. In order to compile the run  `truffle compile`
