@@ -5,7 +5,7 @@ Token for USD (USDG) is coming soon.
 # Contracts
 The implementation is fairly simple and straightforward.
 
-The address of deployed contract - `TBD`.
+The address of deployed contract - https://etherscan.io/token/0x40c3f4c4189c04708e8c22659a16ebafc22218e7.
 
 The Gekkoin EUR Token contract (GekkoinEURToken) functionality is described below.
 
