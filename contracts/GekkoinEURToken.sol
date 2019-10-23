@@ -1,4 +1,4 @@
-pragma solidity >=0.4.24;
+pragma solidity 0.5.3;
 
 /**
  * @title ERC20Basic
@@ -86,9 +86,9 @@ library SafeMath {
 contract BasicToken is ERC20Basic {
   using SafeMath for uint256;
 
-  mapping(address => uint256) balances;
+  mapping(address => uint256) internal balances;
 
-  uint256 totalSupply_;
+  uint256 internal totalSupply_;
 
   /**
   * @dev Total number of tokens in existence
@@ -251,7 +251,6 @@ contract Ownable {
   address public owner;
 
 
-  event OwnershipRenounced(address indexed previousOwner);
   event OwnershipTransferred(
     address indexed previousOwner,
     address indexed newOwner
@@ -272,17 +271,6 @@ contract Ownable {
   modifier onlyOwner() {
     require(msg.sender == owner);
     _;
-  }
-
-  /**
-   * @dev Allows the current owner to relinquish control of the contract.
-   * @notice Renouncing to ownership will leave the contract without an owner.
-   * It will not be possible to call the functions with the `onlyOwner`
-   * modifier anymore.
-   */
-  function renounceOwnership() public onlyOwner {
-    emit OwnershipRenounced(owner);
-    owner = address(0);
   }
 
   /**
@@ -311,15 +299,6 @@ contract Ownable {
  */
 contract MintableToken is StandardToken, Ownable {
   event Mint(address indexed to, uint256 amount);
-  event MintFinished();
-
-  bool public mintingFinished = false;
-
-
-  modifier canMint() {
-    require(!mintingFinished);
-    _;
-  }
 
   modifier hasMintPermission() {
     require(msg.sender == owner);
@@ -337,7 +316,6 @@ contract MintableToken is StandardToken, Ownable {
     uint256 _amount
   )
     hasMintPermission
-    canMint
     public
     returns (bool)
   {
@@ -347,32 +325,27 @@ contract MintableToken is StandardToken, Ownable {
     emit Transfer(address(0), _to, _amount);
     return true;
     }
-
-  /**
-   * @dev Function to stop minting new tokens.
-   * @return True if the operation was successful.
-   */
-    function finishMinting() onlyOwner canMint public returns (bool) {
-    mintingFinished = true;
-    emit MintFinished();
-    return true;
-    }
 }
 
 /**
  * @title Burnable Token
  * @dev Token that can be irreversibly burned (destroyed).
  */
-contract BurnableToken is BasicToken {
+contract BurnableToken is BasicToken, Ownable {
 
   event Burn(address indexed burner, uint256 value);
+
+  modifier hasBurnPermission() {
+    require(msg.sender == owner);
+    _;
+  }
 
   /**
    * @dev Burns a specific amount of tokens.
    * @param _value The amount of token to be burned.
    */
-  function burn(uint256 _value) public {
-    _burn(msg.sender, _value * (10 ** 18));
+  function burn(uint256 _value) public hasBurnPermission {
+    _burn(msg.sender, _value);
   }
 
   function _burn(address _who, uint256 _value) internal {
@@ -391,35 +364,6 @@ contract GekkoinEURToken is MintableToken, BurnableToken {
 
     string public constant name = "Gekkoin EUR Token"; // solium-disable-line uppercase
     string public constant symbol = "EURG"; // solium-disable-line uppercase
-    uint8 public constant decimals = 18; // solium-disable-line uppercase
+    uint8 public constant decimals = 2; // solium-disable-line uppercase
 
-}
-
-contract GekkoinEUR {
-    using SafeMath for uint256;
-
-    GekkoinEURToken public token;
-    address public ownerContract;       
-
-  modifier isContractOwner() {
-    require(msg.sender == ownerContract);
-    _;
-  }
-
-  function createTokenContract() internal returns (GekkoinEURToken) {
-      return new GekkoinEURToken();
-  }
-
-  constructor() public {
-      token = createTokenContract();
-      ownerContract = msg.sender;      
-  }
-
-  function createTokens(uint count, address addr) isContractOwner public returns(bool) {  
-      uint256 tokenAmount = count * (10 ** 18);   
-      require(count > 0);
-      require(addr != address(0));
-      token.mint(addr, tokenAmount);      
-      return true;
-  }
 }
