@@ -1,5 +1,5 @@
 Fiat tokens on [GEKKOIN](https://gekkoin.com) ecosystem. <br />
-Currently there is only one Gekkoin token in the ecosystem - Gekkoin EUR Token (EURG). <br />
+Currently there is only one Gekkoin token in the ecosystem - Gekkoin Europe Token (EURG). <br />
 Token for USD (USDG) is coming soon.
 
 # Contracts
@@ -7,10 +7,10 @@ The implementation is fairly simple and straightforward.
 
 The address of deployed contract - https://etherscan.io/token/0x40c3f4c4189c04708e8c22659a16ebafc22218e7.
 
-The Gekkoin EUR Token contract (GekkoinEURToken) functionality is described below.
+The Gekkoin Europe Token contract (GekkoinEURToken) functionality is described below.
 
 ## ERC20 compatible
-The Gekkoin EUR Token implements the ERC20 interface. It utilizes standard `StandardToken` and `BasicToken` contracts that only include following functions:
+The Gekkoin Europe Token implements the ERC20 interface. It utilizes standard `StandardToken` and `BasicToken` contracts that only include following functions:
 
 View functions:
 
@@ -29,14 +29,14 @@ Public functions:
 `approve` - approves allowance for specified account
 
 ### BurnableToken
-GKE tokens can be burned by any account on demand. `BurnableToken` contract inherits `BasicToken` and implements 2 functions:
+EURG tokens can be burned by any account on demand. `BurnableToken` contract inherits `BasicToken` and implements 2 functions:
 
 `_burn` - internal function for token burn
 
 `burn` - public function that calls `_burn`
 
 ### MintableToken
-GKE tokens can be minted by owner account.
+EURG tokens can be minted by owner account.
 
 Original `MintableToken` contract inherits `StandardToken`, `Ownable` and implements 2 functions and 2 modifiers:
 
@@ -48,10 +48,10 @@ function `mint` - mints tokens to specified account. The function has `hasMintPe
 
 function `finishMinting` - finishes minting. The function has `hasMintPermission`, `canMint` modifiers. After the function was called it's impossible to mint any new tokens
 
-As far as Gekkoin EUR Token is stable coin, minting is unlimited. Modifier `canMint` and function `finishMinting`  were removed from original OpenZeppelin implementation (parameter mintingFinished and event MintFinished as well).
+As far as Gekkoin Europe Token is utility coin, minting is unlimited. Modifier `canMint` and function `finishMinting`  were removed from original OpenZeppelin implementation (parameter mintingFinished and event MintFinished as well).
 
 ### Access control
-The Gekkoin EUR Token contract is Ownable contract. These functions can be only called by owner: `transferOwnership`, `mint`.
+The Gekkoin Europe Token contract is Ownable contract. These functions can be only called by owner: `transferOwnership`, `mint`.
 
 Function renounceOwnership was removed from original OpenZeppelin implementation (with OwnershipRenounced event).
 
@@ -59,4 +59,4 @@ Function renounceOwnership was removed from original OpenZeppelin implementation
 GekkoinEURToken inherits from `MintableToken`, `BurnableToken`. GekkoinEURToken sets name to `Gekkoin EUR Token`; symbol = `EURG`; decimals to `2`.
 
 ## Compiling
-Gekkoin EUR token is truffle project. In order to compile the run  `truffle compile`
+Gekkoin Europe token is truffle project. In order to compile the run  `truffle compile`
